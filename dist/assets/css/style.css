@@ -1,0 +1,12 @@
+.container  {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.todo__item--completed {
+    text-decoration: line-through;
+}
+
+.todo__item--deleted span {
+    opacity: 0.3;
+}

@@ -1,3 +1,10 @@
+import {
+    ADD_TODO,
+    TOGGLE_TODO,
+    DELETE_TODO,
+    UNDELETE_TODO
+} from '../actions/actionTypes'
+
 function addTodo(state, action) {
     return [...state,
         {
@@ -20,13 +27,43 @@ function toggleTodo(state, action) {
     })
 }
 
-export default function (state = [], action) {
+function deleteTodo(state, action) {
+    console.log(state);
+    return state.map(todo => {
+        if (todo.id !== action.id) {
+            return todo;
+        }
+        return {
+            ...todo,
+            deleted: true
+        }
+    })
+}
+
+function undeleteTodo(state, action) {
+    return state.map(todo => {
+        if (todo.id !== action.id) {
+            return todo;
+        }
+        return {
+            ...todo,
+            deleted: false
+        }
+    })
+}
+
+export default function todoReducer(state = [], action) {
     console.log('Reduce todo');
+
     switch (action.type) {
-        case 'ADD_TODO':
+        case ADD_TODO:
             return addTodo(state, action);
-        case 'TOGGLE_TODO':
+        case TOGGLE_TODO:
             return toggleTodo(state, action);
+        case DELETE_TODO:
+            return deleteTodo(state, action);
+        case UNDELETE_TODO:
+            return undeleteTodo(state, action);
         default:
             return state;
 
