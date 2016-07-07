@@ -5,11 +5,13 @@ import {
     UNDELETE_TODO
 } from './actionTypes';
 
+import log from '../utils/log.util';
+
 import {uniqueId} from 'lodash';
 
 export function addTodo(title) {
 
-    console.log('dispatch ADD_TODO');
+    log.action('dispatch ADD_TODO');
 
     return {
         type: ADD_TODO,
@@ -21,7 +23,7 @@ export function addTodo(title) {
 
 export function toggleTodo(id) {
 
-    console.log('dispatch TOGGLE_TODO');
+    log.action('dispatch TOGGLE_TODO');
 
     return {
         type: TOGGLE_TODO,
@@ -30,7 +32,8 @@ export function toggleTodo(id) {
 }
 
 export function deleteTodo(id) {
-    console.log('dispatch DELETE_TODO');
+
+    log.action('dispatch DELETE_TODO');
 
     return {
         type: DELETE_TODO,
@@ -40,7 +43,7 @@ export function deleteTodo(id) {
 
 export function undeleteTodo(id) {
 
-    console.log('dispatch UNDELETE_TODO');
+    log.action('dispatch UNDELETE_TODO');
 
     return {
         type: UNDELETE_TODO,

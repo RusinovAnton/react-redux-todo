@@ -1,9 +1,10 @@
 import {
     SET_VISIBILITY_FILTER
 } from '../actions/actionTypes';
+import log from '../utils/log.util'
 
 export default function filterTodoReducer(state = [], action) {
-    console.log('Reduce filterTodo');
+    log.reduce('Reduce filterTodo');
     switch (action.type) {
         case SET_VISIBILITY_FILTER:
             return action.filter;

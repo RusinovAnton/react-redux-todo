@@ -1,6 +1,14 @@
-.container  {
+.container {
     width: 400px;
     margin: 0 auto;
+}
+
+::selection {
+    background: transparent;
+}
+
+.todo__item {
+    cursor: pointer;
 }
 
 .todo__item--completed {

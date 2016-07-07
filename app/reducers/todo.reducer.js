@@ -4,6 +4,7 @@ import {
     DELETE_TODO,
     UNDELETE_TODO
 } from '../actions/actionTypes'
+import log from '../utils/log.util'
 
 function addTodo(state, action) {
     return [...state,
@@ -28,7 +29,6 @@ function toggleTodo(state, action) {
 }
 
 function deleteTodo(state, action) {
-    console.log(state);
     return state.map(todo => {
         if (todo.id !== action.id) {
             return todo;
@@ -53,7 +53,7 @@ function undeleteTodo(state, action) {
 }
 
 export default function todoReducer(state = [], action) {
-    console.log('Reduce todo');
+    log.reduce('Reduce todo');
 
     switch (action.type) {
         case ADD_TODO:

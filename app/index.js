@@ -7,8 +7,6 @@ import React from 'react';
 
 function render() {
 
-    console.log(store.getState());
-
     function onAddTodo(e) {
         // Prevent default submit
         e.preventDefault();
