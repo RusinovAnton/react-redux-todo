@@ -4,7 +4,9 @@ import {
 import log from '../utils/log.util'
 
 export default function filterTodoReducer(state = 'SHOW_ALL', action) {
-    log.reduce('Reduce filterTodo');
+
+    log.reduce(`FILTER: ${action.type}`);
+
     switch (action.type) {
         case SET_VISIBILITY_FILTER:
             return action.filter;

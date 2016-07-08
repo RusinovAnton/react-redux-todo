@@ -1,5 +1,5 @@
 import store from './stores/todo.store';
-
+import log from './utils/log.util';
 import {render as ReactRender} from 'react-dom';
 import TodoApp from './components/TodoApp.component';
 import * as actions from './actions';
@@ -7,7 +7,8 @@ import React from 'react';
 
 function render() {
 
-    console.log(store.getState());
+    log.render('APP', true);
+    console.log(store.state);
 
     function onAddTodo(e) {
         // Prevent default submit
@@ -42,7 +43,7 @@ function render() {
 
     ReactRender(
         <TodoApp
-            state={{...store.getState()}}
+            state={{...store.state}}
             onAddTodo={onAddTodo}
             onToggleTodo={onToggleTodo}
             onDeleteTodo={onDeleteTodo}
@@ -53,5 +54,6 @@ function render() {
     )
 }
 
-store.subscribe(render);
+store.subscribe(null, render);
+
 render();

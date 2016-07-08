@@ -14,19 +14,25 @@ export default class Log {
 
     static reduce(str, getStack = false) {
         if (getStack) Log.getStack();
-        console.log(`%c${str}`, 'color: blue; font-weight: bold');
+        console.log(`%creduce ${str}`, 'color: blue; font-weight: bold');
         console.log(...logSeparator);
     }
 
     static action(str, getStack = false) {
         if (getStack) Log.getStack();
-        console.log(`%c${str}`, 'color: red; font-weight: bold');
+        console.log(`%caction ${str}`, 'color: red; font-weight: bold');
+        console.log(...logSeparator);
+    }
+
+    static dispatch(str, getStack = false) {
+        if (getStack) Log.getStack();
+        console.log(`%cdispatch ${str}`, 'color: blueviolet; font-weight: bold');
         console.log(...logSeparator);
     }
 
     static render(str, getStack = false) {
         if (getStack) Log.getStack();
-        console.log(`%c${str}`, 'color: green; font-weight: bold');
+        console.log(`%crender ${str}`, 'color: green; font-weight: bold');
         console.log(...logSeparator);
     }
 }

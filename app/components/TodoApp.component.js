@@ -8,7 +8,7 @@ function getVisibleTodos(todos, filter) {
         case 'SHOW_COMPLETED':
             return todos.filter(todo=>todo.completed);
         case 'SHOW_ACTIVE':
-            return todos.filter(todo=>!todo.completed);
+            return todos.filter(todo=>!todo.completed&&!todo.deleted);
         default:
             return todos
     }
@@ -32,7 +32,12 @@ export default class TodoApp extends React.Component {
     render() {
         const {todo, filterTodo} = this.props.state;
 
-        const visibleTodos = getVisibleTodos(todo, filterTodo)
+        let visibleTodos = getVisibleTodos(todo, filterTodo);
+
+        // Move deleted todos to the bottom
+        visibleTodos = visibleTodos
+            .filter(todo=>!todo.deleted)
+            .concat(visibleTodos.filter(todo=>todo.deleted));
 
         return (
             <div>

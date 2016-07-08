@@ -53,7 +53,7 @@ function undeleteTodo(state, action) {
 }
 
 export default function todoReducer(state = [], action) {
-    log.reduce('Reduce todo');
+    log.reduce(`TODO: ${action.type}`);
 
     switch (action.type) {
         case ADD_TODO:

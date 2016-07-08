@@ -12,7 +12,7 @@ import {uniqueId} from 'lodash';
 
 export function addTodo(title) {
 
-    log.action('dispatch ADD_TODO');
+    log.action('ADD_TODO');
 
     return {
         type: ADD_TODO,
@@ -24,7 +24,7 @@ export function addTodo(title) {
 
 export function toggleTodo(id) {
 
-    log.action('dispatch TOGGLE_TODO');
+    log.action('TOGGLE_TODO');
 
     return {
         type: TOGGLE_TODO,
@@ -34,7 +34,7 @@ export function toggleTodo(id) {
 
 export function deleteTodo(id) {
 
-    log.action('dispatch DELETE_TODO');
+    log.action('DELETE_TODO');
 
     return {
         type: DELETE_TODO,
@@ -44,7 +44,7 @@ export function deleteTodo(id) {
 
 export function undeleteTodo(id) {
 
-    log.action('dispatch UNDELETE_TODO');
+    log.action('UNDELETE_TODO');
 
     return {
         type: UNDELETE_TODO,
@@ -54,7 +54,7 @@ export function undeleteTodo(id) {
 
 export function filterTodo(filter) {
 
-    log.action('dispatch SET_VISIBILITY_FILTER');
+    log.action('SET_VISIBILITY_FILTER');
 
     return {
         type: SET_VISIBILITY_FILTER,
