@@ -5,7 +5,7 @@ const controllers = requireTree('../controllers');
 const router = require('express').Router();
 
 router
-    .get    ('/',                    () => true)
+    .get    ('/',                    (req, res) => res.render('index'))
     .get    ('/api/todo/:id?',       controllers.api.todoController.getTodo)
     .post   ('/api/todo',            controllers.api.todoController.postTodo)
     .put    ('/api/todo/:id',        controllers.api.todoController.putTodo)
