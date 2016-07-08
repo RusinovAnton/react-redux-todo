@@ -138,12 +138,10 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var todoAppReducer = (0, _redux.combineReducers)({
+	exports.default = (0, _redux.createStore)((0, _redux.combineReducers)({
 	    todo: _todo2.default,
 	    filterTodo: _filterTodo2.default
-	});
-	
-	exports.default = (0, _redux.createStore)(todoAppReducer);
+	}));
 
 /***/ },
 /* 3 */
@@ -1236,10 +1234,18 @@
 	    }
 	
 	    _createClass(Log, null, [{
+	        key: 'getStack',
+	        value: function getStack() {
+	            console.log('%c' + new Error().stack.replace(/Error/, 'Stack trace'), 'font-size:11px');
+	        }
+	    }, {
 	        key: 'reduce',
 	        value: function reduce(str) {
 	            var _console;
 	
+	            var getStack = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+	
+	            if (getStack) Log.getStack();
 	            console.log('%c' + str, 'color: blue; font-weight: bold');
 	            (_console = console).log.apply(_console, logSeparator);
 	        }
@@ -1248,6 +1254,9 @@
 	        value: function action(str) {
 	            var _console2;
 	
+	            var getStack = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+	
+	            if (getStack) Log.getStack();
 	            console.log('%c' + str, 'color: red; font-weight: bold');
 	            (_console2 = console).log.apply(_console2, logSeparator);
 	        }
@@ -1256,6 +1265,9 @@
 	        value: function render(str) {
 	            var _console3;
 	
+	            var getStack = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+	
+	            if (getStack) Log.getStack();
 	            console.log('%c' + str, 'color: green; font-weight: bold');
 	            (_console3 = console).log.apply(_console3, logSeparator);
 	        }
