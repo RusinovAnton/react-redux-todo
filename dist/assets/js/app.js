@@ -53,6 +53,8 @@
 
 	'use strict';
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _todo = __webpack_require__(2);
 	
 	var _todo2 = _interopRequireDefault(_todo);
@@ -63,7 +65,7 @@
 	
 	var _TodoApp2 = _interopRequireDefault(_TodoApp);
 	
-	var _actions = __webpack_require__(190);
+	var _actions = __webpack_require__(191);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
@@ -76,6 +78,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function render() {
+	
+	    console.log(_todo2.default.getState());
 	
 	    function onAddTodo(e) {
 	        // Prevent default submit
@@ -104,12 +108,17 @@
 	        _todo2.default.dispatch(actions.undeleteTodo(this.id));
 	    }
 	
+	    function onFilter(filter) {
+	        _todo2.default.dispatch(actions.filterTodo(filter));
+	    }
+	
 	    (0, _reactDom.render)(_react2.default.createElement(_TodoApp2.default, {
-	        todos: _todo2.default.getState().todo,
+	        state: _extends({}, _todo2.default.getState()),
 	        onAddTodo: onAddTodo,
 	        onToggleTodo: onToggleTodo,
 	        onDeleteTodo: onDeleteTodo,
-	        onUndeleteTodo: onUndeleteTodo
+	        onUndeleteTodo: onUndeleteTodo,
+	        onFilter: onFilter
 	    }), document.getElementById('root'));
 	}
 	
@@ -1298,7 +1307,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function filterTodoReducer() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? 'SHOW_ALL' : arguments[0];
 	    var action = arguments[1];
 	
 	    _log2.default.reduce('Reduce filterTodo');
@@ -21489,7 +21498,7 @@
 /* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -21501,6 +21510,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _FilterLink = __webpack_require__(190);
+	
+	var _FilterLink2 = _interopRequireDefault(_FilterLink);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21508,6 +21521,23 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	function getVisibleTodos(todos, filter) {
+	    switch (filter) {
+	        case 'SHOW_ALL':
+	            return todos;
+	        case 'SHOW_COMPLETED':
+	            return todos.filter(function (todo) {
+	                return todo.completed;
+	            });
+	        case 'SHOW_ACTIVE':
+	            return todos.filter(function (todo) {
+	                return !todo.completed;
+	            });
+	        default:
+	            return todos;
+	    }
+	}
 	
 	var TodoApp = function (_React$Component) {
 	    _inherits(TodoApp, _React$Component);
@@ -21519,48 +21549,76 @@
 	    }
 	
 	    _createClass(TodoApp, [{
-	        key: "render",
+	        key: 'render',
 	        value: function render() {
 	            var _this2 = this;
 	
+	            var _props$state = this.props.state;
+	            var todo = _props$state.todo;
+	            var filterTodo = _props$state.filterTodo;
+	
+	
+	            var visibleTodos = getVisibleTodos(todo, filterTodo);
+	
 	            return _react2.default.createElement(
-	                "div",
+	                'div',
 	                null,
 	                _react2.default.createElement(
-	                    "form",
+	                    'form',
 	                    { onSubmit: this.props.onAddTodo.bind(this) },
-	                    _react2.default.createElement("input", { ref: function ref(node) {
+	                    _react2.default.createElement('input', { ref: function ref(node) {
 	                            _this2.input = node;
-	                        }, type: "text" }),
+	                        }, type: 'text' }),
 	                    _react2.default.createElement(
-	                        "button",
-	                        { type: "submit" },
-	                        "Add Todo"
+	                        'button',
+	                        { type: 'submit' },
+	                        'Add Todo'
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    "ul",
+	                    'p',
 	                    null,
-	                    this.props.todos.map(function (todo) {
+	                    _react2.default.createElement(
+	                        _FilterLink2.default,
+	                        { onFilterClick: this.props.onFilter, filter: 'SHOW_ALL' },
+	                        'All'
+	                    ),
+	                    ' ',
+	                    _react2.default.createElement(
+	                        _FilterLink2.default,
+	                        { onFilterClick: this.props.onFilter, filter: 'SHOW_ACTIVE' },
+	                        'Active'
+	                    ),
+	                    ' ',
+	                    _react2.default.createElement(
+	                        _FilterLink2.default,
+	                        { onFilterClick: this.props.onFilter, filter: 'SHOW_COMPLETED' },
+	                        'Completed'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'ul',
+	                    null,
+	                    visibleTodos.map(function (todo) {
 	                        return _react2.default.createElement(
-	                            "li",
+	                            'li',
 	                            { key: todo.id,
-	                                className: "todo__item" + (todo.completed ? ' todo__item--completed' : '') + (todo.deleted ? ' todo__item--deleted' : ''),
+	                                className: 'todo__item' + (todo.completed ? ' todo__item--completed' : '') + (todo.deleted ? ' todo__item--deleted' : ''),
 	                                style: { textDecoration: todo.completed ? 'line-through' : 'none' } },
 	                            _react2.default.createElement(
-	                                "span",
+	                                'span',
 	                                {
 	                                    onClick: _this2.props.onToggleTodo.bind(todo) },
 	                                todo.title
 	                            ),
 	                            todo.deleted ? _react2.default.createElement(
-	                                "button",
-	                                { type: "button", onClick: _this2.props.onUndeleteTodo.bind(todo) },
-	                                "undelete"
+	                                'button',
+	                                { type: 'button', onClick: _this2.props.onUndeleteTodo.bind(todo) },
+	                                'undelete'
 	                            ) : _react2.default.createElement(
-	                                "button",
-	                                { type: "button", onClick: _this2.props.onDeleteTodo.bind(todo) },
-	                                "x"
+	                                'button',
+	                                { type: 'button', onClick: _this2.props.onDeleteTodo.bind(todo) },
+	                                'x'
 	                            )
 	                        );
 	                    })
@@ -21573,7 +21631,7 @@
 	}(_react2.default.Component);
 	
 	TodoApp.propTypes = {
-	    todos: _react2.default.PropTypes.array.isRequired,
+	    state: _react2.default.PropTypes.object.isRequired,
 	    onAddTodo: _react2.default.PropTypes.func.isRequired,
 	    onToggleTodo: _react2.default.PropTypes.func.isRequired,
 	    onDeleteTodo: _react2.default.PropTypes.func.isRequired,
@@ -22200,6 +22258,56 @@
 /* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(184);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var FilterLink = function (_React$Component) {
+	    _inherits(FilterLink, _React$Component);
+	
+	    function FilterLink(props) {
+	        _classCallCheck(this, FilterLink);
+	
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(FilterLink).call(this, props));
+	    }
+	
+	    _createClass(FilterLink, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "a",
+	                { href: "#",
+	                    onClick: this.props.onFilterClick.bind(this, this.props.filter) },
+	                this.props.children
+	            );
+	        }
+	    }]);
+	
+	    return FilterLink;
+	}(_react2.default.Component);
+	
+	exports.default = FilterLink;
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
@@ -22209,6 +22317,7 @@
 	exports.toggleTodo = toggleTodo;
 	exports.deleteTodo = deleteTodo;
 	exports.undeleteTodo = undeleteTodo;
+	exports.filterTodo = filterTodo;
 	
 	var _actionTypes = __webpack_require__(18);
 	
@@ -22216,7 +22325,7 @@
 	
 	var _log2 = _interopRequireDefault(_log);
 	
-	var _lodash = __webpack_require__(191);
+	var _lodash = __webpack_require__(192);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -22261,9 +22370,19 @@
 	        id: id
 	    };
 	}
+	
+	function filterTodo(filter) {
+	
+	    _log2.default.action('dispatch SET_VISIBILITY_FILTER');
+	
+	    return {
+	        type: _actionTypes.SET_VISIBILITY_FILTER,
+	        filter: filter
+	    };
+	}
 
 /***/ },
-/* 191 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -38671,10 +38790,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(192)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(193)(module), (function() { return this; }())))
 
 /***/ },
-/* 192 */
+/* 193 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {

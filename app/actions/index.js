@@ -2,7 +2,8 @@ import {
     ADD_TODO,
     TOGGLE_TODO,
     DELETE_TODO,
-    UNDELETE_TODO
+    UNDELETE_TODO,
+    SET_VISIBILITY_FILTER
 } from './actionTypes';
 
 import log from '../utils/log.util';
@@ -49,4 +50,15 @@ export function undeleteTodo(id) {
         type: UNDELETE_TODO,
         id
     }
+}
+
+export function filterTodo(filter) {
+
+    log.action('dispatch SET_VISIBILITY_FILTER');
+
+    return {
+        type: SET_VISIBILITY_FILTER,
+        filter
+    }
+
 }

@@ -1,12 +1,28 @@
 import React from 'react';
+import FilterLink from './filter/FilterLink.component';
+
+function getVisibleTodos(todos, filter) {
+    switch (filter) {
+        case 'SHOW_ALL':
+            return todos;
+        case 'SHOW_COMPLETED':
+            return todos.filter(todo=>todo.completed);
+        case 'SHOW_ACTIVE':
+            return todos.filter(todo=>!todo.completed);
+        default:
+            return todos
+    }
+}
 
 export default class TodoApp extends React.Component {
     constructor(props) {
         super(props);
+
+
     }
 
     static propTypes = {
-        todos: React.PropTypes.array.isRequired,
+        state: React.PropTypes.object.isRequired,
         onAddTodo: React.PropTypes.func.isRequired,
         onToggleTodo: React.PropTypes.func.isRequired,
         onDeleteTodo: React.PropTypes.func.isRequired,
@@ -14,14 +30,25 @@ export default class TodoApp extends React.Component {
     };
 
     render() {
+        const {todo, filterTodo} = this.props.state;
+
+        const visibleTodos = getVisibleTodos(todo, filterTodo)
+
         return (
             <div>
                 <form onSubmit={this.props.onAddTodo.bind(this)}>
                     <input ref={ node => {this.input = node} } type="text"/>
                     <button type="submit">Add Todo</button>
                 </form>
+                <p>
+                    <FilterLink onFilterClick={this.props.onFilter} filter="SHOW_ALL">All</FilterLink>
+                    {' '}
+                    <FilterLink onFilterClick={this.props.onFilter} filter="SHOW_ACTIVE">Active</FilterLink>
+                    {' '}
+                    <FilterLink onFilterClick={this.props.onFilter} filter="SHOW_COMPLETED">Completed</FilterLink>
+                </p>
                 <ul>
-                    {this.props.todos.map(todo => {
+                    {visibleTodos.map(todo => {
                         return (
                             <li key={todo.id}
                                 className={`todo__item${todo.completed ? ' todo__item--completed' : ''}${todo.deleted ? ' todo__item--deleted' : ''}`}

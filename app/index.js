@@ -7,6 +7,8 @@ import React from 'react';
 
 function render() {
 
+    console.log(store.getState());
+
     function onAddTodo(e) {
         // Prevent default submit
         e.preventDefault();
@@ -34,13 +36,18 @@ function render() {
         store.dispatch(actions.undeleteTodo(this.id));
     }
 
+    function onFilter(filter) {
+        store.dispatch(actions.filterTodo(filter))
+    }
+
     ReactRender(
         <TodoApp
-            todos={store.getState().todo}
+            state={{...store.getState()}}
             onAddTodo={onAddTodo}
             onToggleTodo={onToggleTodo}
             onDeleteTodo={onDeleteTodo}
             onUndeleteTodo={onUndeleteTodo}
+            onFilter={onFilter}
         />,
         document.getElementById('root')
     )
