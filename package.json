@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./server/bin/www -w ./server & browser-sync start --proxy 'localhost:1337' --files 'public/**/*' --port 7777",
+    "start": "nodemon ./server/bin/www -w ./server & browser-sync start --proxy 'localhost:1337' --files 'dist/**/*' --port 5555",
     "build": "gulp",
     "db": "mongod --dbpath ~/data/db",
     "test": "gulp test"
