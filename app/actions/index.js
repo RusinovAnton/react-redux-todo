@@ -1,8 +1,7 @@
 import {
     ADD_TODO,
-    TOGGLE_TODO,
-    DELETE_TODO,
-    UNDELETE_TODO,
+    TOGGLE_TODO_COMPLETE,
+    TOGGLE_TODO_DELETE,
     SET_VISIBILITY_FILTER
 } from './actionTypes';
 
@@ -22,32 +21,22 @@ export function addTodo(title) {
     }
 }
 
-export function toggleTodo(id) {
+export function toggleTodoComplete(id) {
 
-    log.action('TOGGLE_TODO');
+    log.action('TOGGLE_TODO_COMPLETE');
 
     return {
-        type: TOGGLE_TODO,
+        type: TOGGLE_TODO_COMPLETE,
         id
     }
 }
 
-export function deleteTodo(id) {
+export function toggleTodoDelete(id) {
 
-    log.action('DELETE_TODO');
-
-    return {
-        type: DELETE_TODO,
-        id
-    }
-}
-
-export function undeleteTodo(id) {
-
-    log.action('UNDELETE_TODO');
+    log.action('TOGGLE_TODO_DELETE');
 
     return {
-        type: UNDELETE_TODO,
+        type: TOGGLE_TODO_DELETE,
         id
     }
 }
@@ -60,5 +49,4 @@ export function filterTodo(filter) {
         type: SET_VISIBILITY_FILTER,
         filter
     }
-
 }

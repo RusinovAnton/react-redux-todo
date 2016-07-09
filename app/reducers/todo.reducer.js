@@ -1,8 +1,7 @@
 import {
     ADD_TODO,
-    TOGGLE_TODO,
-    DELETE_TODO,
-    UNDELETE_TODO
+    TOGGLE_TODO_COMPLETE,
+    TOGGLE_TODO_DELETE
 } from '../actions/actionTypes'
 import log from '../utils/log.util'
 
@@ -16,7 +15,7 @@ function addTodo(state, action) {
     ]
 }
 
-function toggleTodo(state, action) {
+function toggleTodoComplete(state, action) {
     return state.map(todo => {
         if (todo.id !== action.id) {
             return todo;
@@ -28,29 +27,18 @@ function toggleTodo(state, action) {
     })
 }
 
-function deleteTodo(state, action) {
+function toggleTodoDelete(state, action) {
     return state.map(todo => {
         if (todo.id !== action.id) {
             return todo;
         }
         return {
             ...todo,
-            deleted: true
+            deleted: !todo.deleted
         }
     })
 }
 
-function undeleteTodo(state, action) {
-    return state.map(todo => {
-        if (todo.id !== action.id) {
-            return todo;
-        }
-        return {
-            ...todo,
-            deleted: false
-        }
-    })
-}
 
 export default function todoReducer(state = [], action) {
     log.reduce(`TODO: ${action.type}`);
@@ -58,14 +46,11 @@ export default function todoReducer(state = [], action) {
     switch (action.type) {
         case ADD_TODO:
             return addTodo(state, action);
-        case TOGGLE_TODO:
-            return toggleTodo(state, action);
-        case DELETE_TODO:
-            return deleteTodo(state, action);
-        case UNDELETE_TODO:
-            return undeleteTodo(state, action);
+        case TOGGLE_TODO_COMPLETE:
+            return toggleTodoComplete(state, action);
+        case TOGGLE_TODO_DELETE:
+            return toggleTodoDelete(state, action);
         default:
             return state;
-
     }
 }

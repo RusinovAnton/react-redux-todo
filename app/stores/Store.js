@@ -18,7 +18,7 @@ export default class Store {
         log.dispatch(action.type);
         this._state = this.reducer(this._state, action);
         this.listeners.forEach(listener => {
-            if (!listener.actions || ~listener.actions.indexOf(action.type)) listener.run()
+            if (!listener.actions || ~listener.actions.indexOf(action.type)) listener.run(this._state)
         });
     }
 

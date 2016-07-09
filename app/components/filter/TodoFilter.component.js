@@ -1,5 +1,6 @@
 import React from 'react';
 import FilterLink from './FilterLink.component';
+import {SET_VISIBILITY_FILTER} from '../../actions/actionTypes';
 import {filterTodo} from '../../actions';
 import store from '../../stores/todo.store.js';
 import log from '../../utils/log.util';
@@ -27,9 +28,10 @@ export default class TodoFilter extends React.Component {
             filter: 'SHOW_ALL'
         }
 
-        store.subscribe(['SET_VISIBILITY_FILTER'], ()=>{
-            this.setState({filter: store.state.visibilityFilter})
-            console.log(this.state);
+        store.subscribe([SET_VISIBILITY_FILTER], (state)=>{
+            if (state.visibilityFilter !== this.state.filter) {
+                this.setState({filter: state.visibilityFilter})
+            }
         });
     }
 
@@ -43,7 +45,6 @@ export default class TodoFilter extends React.Component {
             <p>
                 {
                     FILTER_VALUES.map((fltr, key)=>{
-                        console.log(this);
                         return (
                             <FilterLink
                                 key={key}

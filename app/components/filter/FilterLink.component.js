@@ -13,17 +13,17 @@ export default class FilterLink extends React.Component {
             onFilterClick
         } = this.props;
 
-        if (isActive) {
-            return (
-                <span>{children}</span>
-                )
-        } else {
+        // if (isActive) {
+        //     return (
+        //         <span>{children}</span>
+        //         )
+        // } else {
             return (
                 <a href="#"
                     onClick={onFilterClick.bind(this, filter)}>
                     {children}
                 </a>
             );
-        }
+        // }
     }
 }
