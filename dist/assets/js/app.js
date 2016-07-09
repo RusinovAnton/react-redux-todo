@@ -69,7 +69,7 @@
 	
 	var _TodoApp2 = _interopRequireDefault(_TodoApp);
 	
-	var _actions = __webpack_require__(194);
+	var _actions = __webpack_require__(195);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
@@ -83,7 +83,7 @@
 	
 	function render() {
 	
-	    _log2.default.render('APP', true);
+	    _log2.default.render('APP');
 	    console.log(_todo2.default.state);
 	
 	    function onAddTodo(e) {
@@ -147,9 +147,9 @@
 	
 	var _todo2 = _interopRequireDefault(_todo);
 	
-	var _filterTodo = __webpack_require__(20);
+	var _visibilityFilter = __webpack_require__(20);
 	
-	var _filterTodo2 = _interopRequireDefault(_filterTodo);
+	var _visibilityFilter2 = _interopRequireDefault(_visibilityFilter);
 	
 	var _Store = __webpack_require__(21);
 	
@@ -158,8 +158,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = new _Store2.default((0, _redux.combineReducers)({
-	    todo: _todo2.default,
-	    filterTodo: _filterTodo2.default
+	    todos: _todo2.default,
+	    visibilityFilter: _visibilityFilter2.default
 	}));
 
 /***/ },
@@ -1317,7 +1317,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.default = filterTodoReducer;
+	exports.default = visibilityFilter;
 	
 	var _actionTypes = __webpack_require__(18);
 	
@@ -1327,7 +1327,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function filterTodoReducer() {
+	function visibilityFilter() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? 'SHOW_ALL' : arguments[0];
 	    var action = arguments[1];
 	
@@ -38030,9 +38030,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _FilterLink = __webpack_require__(193);
+	var _TodoFilter = __webpack_require__(193);
 	
-	var _FilterLink2 = _interopRequireDefault(_FilterLink);
+	var _TodoFilter2 = _interopRequireDefault(_TodoFilter);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -38068,17 +38068,25 @@
 	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TodoApp).call(this, props));
 	    }
 	
+	    // static propTypes = {
+	    //     state: React.PropTypes.object.isRequired,
+	    //     onAddTodo: React.PropTypes.func.isRequired,
+	    //     onToggleTodo: React.PropTypes.func.isRequired,
+	    //     onDeleteTodo: React.PropTypes.func.isRequired,
+	    //     onUndeleteTodo: React.PropTypes.func.isRequired
+	    // };
+	
 	    _createClass(TodoApp, [{
 	        key: 'render',
 	        value: function render() {
 	            var _this2 = this;
 	
 	            var _props$state = this.props.state;
-	            var todo = _props$state.todo;
-	            var filterTodo = _props$state.filterTodo;
+	            var todos = _props$state.todos;
+	            var visibilityFilter = _props$state.visibilityFilter;
 	
 	
-	            var visibleTodos = getVisibleTodos(todo, filterTodo);
+	            var visibleTodos = getVisibleTodos(todos, visibilityFilter);
 	
 	            // Move deleted todos to the bottom
 	            visibleTodos = visibleTodos.filter(function (todo) {
@@ -38102,27 +38110,7 @@
 	                        'Add Todo'
 	                    )
 	                ),
-	                _react2.default.createElement(
-	                    'p',
-	                    null,
-	                    _react2.default.createElement(
-	                        _FilterLink2.default,
-	                        { onFilterClick: this.props.onFilter, filter: 'SHOW_ALL' },
-	                        'All'
-	                    ),
-	                    ' ',
-	                    _react2.default.createElement(
-	                        _FilterLink2.default,
-	                        { onFilterClick: this.props.onFilter, filter: 'SHOW_ACTIVE' },
-	                        'Active'
-	                    ),
-	                    ' ',
-	                    _react2.default.createElement(
-	                        _FilterLink2.default,
-	                        { onFilterClick: this.props.onFilter, filter: 'SHOW_COMPLETED' },
-	                        'Completed'
-	                    )
-	                ),
+	                _react2.default.createElement(_TodoFilter2.default, null),
 	                _react2.default.createElement(
 	                    'ul',
 	                    null,
@@ -38157,13 +38145,6 @@
 	    return TodoApp;
 	}(_react2.default.Component);
 	
-	TodoApp.propTypes = {
-	    state: _react2.default.PropTypes.object.isRequired,
-	    onAddTodo: _react2.default.PropTypes.func.isRequired,
-	    onToggleTodo: _react2.default.PropTypes.func.isRequired,
-	    onDeleteTodo: _react2.default.PropTypes.func.isRequired,
-	    onUndeleteTodo: _react2.default.PropTypes.func.isRequired
-	};
 	exports.default = TodoApp;
 
 /***/ },
@@ -38785,6 +38766,111 @@
 /* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(187);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _FilterLink = __webpack_require__(194);
+	
+	var _FilterLink2 = _interopRequireDefault(_FilterLink);
+	
+	var _actions = __webpack_require__(195);
+	
+	var _todoStore = __webpack_require__(2);
+	
+	var _todoStore2 = _interopRequireDefault(_todoStore);
+	
+	var _log = __webpack_require__(19);
+	
+	var _log2 = _interopRequireDefault(_log);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var FILTER_VALUES = [{
+	    value: 'SHOW_ALL',
+	    title: 'All'
+	}, {
+	    value: 'SHOW_ACTIVE',
+	    title: 'Active'
+	}, {
+	    value: 'SHOW_COMPLETED',
+	    title: 'Completed'
+	}];
+	
+	var TodoFilter = function (_React$Component) {
+	    _inherits(TodoFilter, _React$Component);
+	
+	    function TodoFilter() {
+	        _classCallCheck(this, TodoFilter);
+	
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TodoFilter).call(this));
+	
+	        _this.state = {
+	            filter: 'SHOW_ALL'
+	        };
+	
+	        _todoStore2.default.subscribe(['SET_VISIBILITY_FILTER'], function () {
+	            _this.setState({ filter: _todoStore2.default.state.visibilityFilter });
+	            console.log(_this.state);
+	        });
+	        return _this;
+	    }
+	
+	    _createClass(TodoFilter, [{
+	        key: 'filterTodo',
+	        value: function filterTodo() {
+	            var filter = arguments.length <= 0 || arguments[0] === undefined ? 'SHOW_ALL' : arguments[0];
+	
+	            _todoStore2.default.dispatch((0, _actions.filterTodo)(filter));
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+	
+	            _log2.default.render('Filters');
+	            return _react2.default.createElement(
+	                'p',
+	                null,
+	                FILTER_VALUES.map(function (fltr, key) {
+	                    console.log(_this2);
+	                    return _react2.default.createElement(
+	                        _FilterLink2.default,
+	                        {
+	                            key: key,
+	                            isActive: _this2.state.filter === fltr.value,
+	                            filter: fltr.value,
+	                            onFilterClick: _this2.filterTodo },
+	                        fltr.title
+	                    );
+	                })
+	            );
+	        }
+	    }]);
+	
+	    return TodoFilter;
+	}(_react2.default.Component);
+	
+	exports.default = TodoFilter;
+
+/***/ },
+/* 194 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
@@ -38817,12 +38903,27 @@
 	    _createClass(FilterLink, [{
 	        key: "render",
 	        value: function render() {
-	            return _react2.default.createElement(
-	                "a",
-	                { href: "#",
-	                    onClick: this.props.onFilterClick.bind(this, this.props.filter) },
-	                this.props.children
-	            );
+	            var _props = this.props;
+	            var isActive = _props.isActive;
+	            var children = _props.children;
+	            var filter = _props.filter;
+	            var onFilterClick = _props.onFilterClick;
+	
+	
+	            if (isActive) {
+	                return _react2.default.createElement(
+	                    "span",
+	                    null,
+	                    children
+	                );
+	            } else {
+	                return _react2.default.createElement(
+	                    "a",
+	                    { href: "#",
+	                        onClick: onFilterClick.bind(this, filter) },
+	                    children
+	                );
+	            }
 	        }
 	    }]);
 	
@@ -38832,7 +38933,7 @@
 	exports.default = FilterLink;
 
 /***/ },
-/* 194 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

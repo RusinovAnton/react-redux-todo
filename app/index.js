@@ -7,7 +7,7 @@ import React from 'react';
 
 function render() {
 
-    log.render('APP', true);
+    log.render('APP');
     console.log(store.state);
 
     function onAddTodo(e) {

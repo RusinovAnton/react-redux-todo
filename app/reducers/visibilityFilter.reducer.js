@@ -3,7 +3,7 @@ import {
 } from '../actions/actionTypes';
 import log from '../utils/log.util'
 
-export default function filterTodoReducer(state = 'SHOW_ALL', action) {
+export default function visibilityFilter(state = 'SHOW_ALL', action) {
 
     log.reduce(`FILTER: ${action.type}`);
 

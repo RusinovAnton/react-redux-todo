@@ -6,11 +6,24 @@ export default class FilterLink extends React.Component {
     }
 
     render() {
-        return (
-            <a href="#"
-                onClick={this.props.onFilterClick.bind(this, this.props.filter)}>
-                {this.props.children}
-            </a>
-        );
+        let {
+            isActive,
+            children,
+            filter,
+            onFilterClick
+        } = this.props;
+
+        if (isActive) {
+            return (
+                <span>{children}</span>
+                )
+        } else {
+            return (
+                <a href="#"
+                    onClick={onFilterClick.bind(this, filter)}>
+                    {children}
+                </a>
+            );
+        }
     }
 }

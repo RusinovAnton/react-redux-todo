@@ -1,5 +1,5 @@
 import React from 'react';
-import FilterLink from './filter/FilterLink.component';
+import TodoFilter from './filter/TodoFilter.component';
 
 function getVisibleTodos(todos, filter) {
     switch (filter) {
@@ -21,18 +21,18 @@ export default class TodoApp extends React.Component {
 
     }
 
-    static propTypes = {
-        state: React.PropTypes.object.isRequired,
-        onAddTodo: React.PropTypes.func.isRequired,
-        onToggleTodo: React.PropTypes.func.isRequired,
-        onDeleteTodo: React.PropTypes.func.isRequired,
-        onUndeleteTodo: React.PropTypes.func.isRequired
-    };
+    // static propTypes = {
+    //     state: React.PropTypes.object.isRequired,
+    //     onAddTodo: React.PropTypes.func.isRequired,
+    //     onToggleTodo: React.PropTypes.func.isRequired,
+    //     onDeleteTodo: React.PropTypes.func.isRequired,
+    //     onUndeleteTodo: React.PropTypes.func.isRequired
+    // };
 
     render() {
-        const {todo, filterTodo} = this.props.state;
+        const {todos, visibilityFilter} = this.props.state;
 
-        let visibleTodos = getVisibleTodos(todo, filterTodo);
+        let visibleTodos = getVisibleTodos(todos, visibilityFilter);
 
         // Move deleted todos to the bottom
         visibleTodos = visibleTodos
@@ -45,13 +45,7 @@ export default class TodoApp extends React.Component {
                     <input ref={ node => {this.input = node} } type="text"/>
                     <button type="submit">Add Todo</button>
                 </form>
-                <p>
-                    <FilterLink onFilterClick={this.props.onFilter} filter="SHOW_ALL">All</FilterLink>
-                    {' '}
-                    <FilterLink onFilterClick={this.props.onFilter} filter="SHOW_ACTIVE">Active</FilterLink>
-                    {' '}
-                    <FilterLink onFilterClick={this.props.onFilter} filter="SHOW_COMPLETED">Completed</FilterLink>
-                </p>
+                <TodoFilter />
                 <ul>
                     {visibleTodos.map(todo => {
                         return (

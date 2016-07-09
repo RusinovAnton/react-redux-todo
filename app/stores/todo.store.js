@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
-import todo from '../reducers/todo.reducer';
-import filterTodo from '../reducers/filterTodo.reducer';
+import todos from '../reducers/todo.reducer';
+import visibilityFilter from '../reducers/visibilityFilter.reducer';
 import Store from './Store';
 
 export default new Store(combineReducers({
-    todo,
-    filterTodo
+    todos,
+    visibilityFilter
 }));
