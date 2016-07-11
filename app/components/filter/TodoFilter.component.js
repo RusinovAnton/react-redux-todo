@@ -26,17 +26,29 @@ export default class TodoFilter extends React.Component {
 
         this.state = {
             filter: 'SHOW_ALL'
-        }
+        };
 
-        store.subscribe([SET_VISIBILITY_FILTER], (state)=>{
-            if (state.visibilityFilter !== this.state.filter) {
-                this.setState({filter: state.visibilityFilter})
-            }
+        this.unsubscribe = store.subscribe([SET_VISIBILITY_FILTER], (state)=>{
+            this.updateState(state)
         });
+    }
+
+    updateState(state) {
+        if (state.visibilityFilter !== this.state.filter) {
+            this.setState({filter: state.visibilityFilter})
+        }
     }
 
     filterTodo(filter = 'SHOW_ALL') {
         store.dispatch(filterTodo(filter))
+    }
+
+    componentDidMount() {
+        this.updateState(store.state)
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
     }
 
     render() {

@@ -22,7 +22,7 @@ function getVisibleTodos(todos, filter) {
         case 'SHOW_COMPLETED':
             return todos.filter(todo=>todo.completed);
         case 'SHOW_ACTIVE':
-            return todos.filter(todo=>!todo.completed&&!todo.deleted);
+            return todos.filter(todo=>!todo.completed && !todo.deleted);
         default:
             return todos
     }
@@ -39,31 +39,45 @@ function onToggleTodoDelete(id) {
 }
 
 export default class TodoList extends React.Component {
+
     constructor() {
         super();
         this.state = {
             todos: [],
             visibilityFilter: 'SHOW_ALL'
-        }
-        store.subscribe(
+        };
+        this.unsubscribe = store.subscribe(
             [
                 ADD_TODO,
                 TOGGLE_TODO_COMPLETE,
                 TOGGLE_TODO_DELETE,
                 SET_VISIBILITY_FILTER
             ], (state) => {
-                this.setState({
-                    todos: state.todos,
-                    visibilityFilter: state.visibilityFilter
-                });
+               this.updateState(state)
             });
     }
-    render() {
 
+    updateState(state) {
+        if (this.state.todos !== state.todos || this.state.visibilityFilter !== state.visibilityFilter) {
+            this.setState({
+                todos: state.todos,
+                visibilityFilter: state.visibilityFilter
+            });
+        }
+    }
+
+    componentDidMount() {
+        this.updateState(store.state);
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
+    render() {
         log.render('TODO LIST');
 
         const {todos, visibilityFilter} = this.state;
-
         let visibleTodos = getVisibleTodos(todos, visibilityFilter);
 
         // Move deleted todos to the bottom
@@ -72,17 +86,17 @@ export default class TodoList extends React.Component {
             .concat(visibleTodos.filter(todo=>todo.deleted));
 
         return (
-                <ul>
-                    {visibleTodos.map((todo, key) => {
-                        console.log(todo);
-                        return (
-                            <Todo key={key}
-                                {...todo}
-                                onToggleTodoComplete={onToggleTodoComplete}
-                                onToggleTodoDelete={onToggleTodoDelete}/>
-                            )
-                    })}
-                </ul>
-            )
+            <ul>
+                {visibleTodos.map((todo, key) => {
+                    console.log(todo);
+                    return (
+                        <Todo key={key}
+                            {...todo}
+                              onToggleTodoComplete={onToggleTodoComplete}
+                              onToggleTodoDelete={onToggleTodoDelete}/>
+                    )
+                })}
+            </ul>
+        )
     }
 }
